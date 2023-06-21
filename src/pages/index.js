@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import FuzzySearch from "fuzzy-search";
 import { Container, Grid, TextField } from "@mui/material";
+
 import PublicLayout from "../components/PublicLayout";
 import FoodCard from "@/components/FoodCard";
 import Fooddata from "@/data/foodlist";
 import Set from "@/components/Set";
-import FuzzySearch from "fuzzy-search";
 
 export default function Home() {
   const [fdata, setFdata] = useState(Fooddata);

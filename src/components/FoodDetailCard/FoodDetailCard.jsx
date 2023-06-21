@@ -1,18 +1,19 @@
-import * as React from "react";
+/*eslint-disable*/
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
+import {
+  Card,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Collapse,
+  IconButton,
+  Typography,
+  Chip,
+  Stack,
+  Divider,
+} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Chip from "@mui/material/Chip";
-import Stack from "@mui/material/Stack";
-import Divider from "@mui/material/Divider";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -25,13 +26,13 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const FoodDetailCard = ({card_info}) => {
-  const [expanded, setExpanded] = React.useState(false);
+const FoodDetailCard = ({ card_info }) => {
+  const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-  console.log("card_info",card_info)
+  console.log("card_info", card_info);
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -47,8 +48,14 @@ const FoodDetailCard = ({card_info}) => {
       </CardContent>
       <CardActions disableSpacing>
         <Stack direction="row" spacing={1}>
-          <Chip label={card_info.available ? "Available" : "Unavailable" } color={card_info.available ? "success" : "error" } />
-          <Chip label={card_info?.price ? `৳ ${card_info?.price}` : "৳ 00" } color="success" />
+          <Chip
+            label={card_info.available ? "Available" : "Unavailable"}
+            color={card_info.available ? "success" : "error"}
+          />
+          <Chip
+            label={card_info?.price ? `৳ ${card_info?.price}` : "৳ 00"}
+            color="success"
+          />
         </Stack>
         <ExpandMore
           expand={expanded}
@@ -63,17 +70,19 @@ const FoodDetailCard = ({card_info}) => {
         <CardContent>
           <Typography variant="h5">Variation:</Typography>
           <Divider />
-          {card_info?.variants?.map((el,i) => (
+          {card_info?.variants?.map((el, i) => (
             <div key={i} className="variant">
               <Typography variant="h6">{el.size}</Typography>
               <Typography variant="h6">Tk {el.price}</Typography>
             </div>
           ))}
 
-          <Typography style={{marginTop:"1rem"}} variant="h5">Description:</Typography>
+          <Typography style={{ marginTop: "1rem" }} variant="h5">
+            Description:
+          </Typography>
           <Divider />
-          <Typography style={{marginTop:"1rem"}} paragraph>
-           {card_info?.description}
+          <Typography style={{ marginTop: "1rem" }} paragraph>
+            {card_info?.description}
           </Typography>
         </CardContent>
       </Collapse>

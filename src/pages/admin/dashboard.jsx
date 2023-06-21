@@ -1,9 +1,7 @@
 import React from "react";
-import Dashboard from "@/components/Sidebar";
 import { Grid, Paper } from "@mui/material";
-import Chart from "../../components/Chart";
+import Dashboard from "@/components/Sidebar";
 import Deposits from "../../components/Deposits";
-import Orders from "../../components/Orders";
 
 const dashboard = () => {
   return (

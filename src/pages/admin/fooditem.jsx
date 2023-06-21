@@ -1,17 +1,20 @@
-/*eslint-disable*/ 
-import React,{useState} from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import AddIcon from "@mui/icons-material/Add";
-import { Button, Grid } from "@mui/material";
-import Dashboard from "@/components/Sidebar";
+/*eslint-disable*/
+import React, { useState } from "react";
 import { useRouter } from "next/router";
+import {
+  Button,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import Dashboard from "@/components/Sidebar";
 
 const columns = [
   { id: "name", label: "Name", minWidth: 170 },
@@ -77,9 +80,9 @@ const fooditem = () => {
     setPage(0);
   };
 
-  const handleAddFood = ()=>{
-    route.push('/admin/addfood')
-  }
+  const handleAddFood = () => {
+    route.push("/admin/addfood");
+  };
 
   return (
     <Dashboard>
@@ -89,7 +92,11 @@ const fooditem = () => {
         spacing={4}
       >
         <Grid item alignItems="flex-end">
-          <Button onClick={handleAddFood} variant="outlined" startIcon={<AddIcon />}>
+          <Button
+            onClick={handleAddFood}
+            variant="outlined"
+            startIcon={<AddIcon />}
+          >
             Add Food Item
           </Button>
         </Grid>
@@ -162,4 +169,3 @@ const fooditem = () => {
 };
 
 export default fooditem;
-
