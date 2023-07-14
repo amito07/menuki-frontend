@@ -67,7 +67,7 @@ const FoodDetailCard = ({ card_info }) => {
                 <CardContent>
                     <Typography variant="h5">Variation:</Typography>
                     <Divider />
-                    {card_info?.variants?.map((el, i) => (
+                    {card_info?.foodvariant?.map((el, i) => (
                         <div key={i} className="variant">
                             <Typography variant="h6">{el.size}</Typography>
                             <Typography variant="h6">Tk {el.price}</Typography>
