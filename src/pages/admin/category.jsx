@@ -47,13 +47,17 @@ const outlet = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${authToken}`,
-                    body: JSON.stringify({
-                        restaurant_id: categoryName.restaurantId,
-                        category_name: categoryName.name,
-                        description: categoryName.description,
-                    }),
                 },
+                body: JSON.stringify({
+                    restaurant_id: categoryName.restaurantId,
+                    category_name: categoryName.name,
+                    description: categoryName.description,
+                }),
             });
+            if(res.status === 200){
+                getCategoryData();
+                setOpen(false);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -70,7 +74,7 @@ const outlet = () => {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}` },
             body: JSON.stringify({
-                restaurant_id: editableContent.restaurantId,
+                restaurant_id: editableContent.restaurant_id,
                 category_name: editableContent.category_name,
                 description: editableContent.description,
             }),
@@ -112,7 +116,7 @@ const outlet = () => {
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}` },
         });
         const data = await res.json();
-        
+
         setCategoryName((prev) => ({ ...prev, restaurantId: data[0].id }));
     };
 
