@@ -86,10 +86,12 @@ const addfood = () => {
     const onImageChange = (event) => {
         console.log(event.target.files[0]);
 
-        setSelectedImage(URL.createObjectURL(event.target.files[0]));
+        setSelectedImage(event.target.files[0]);
     };
 
     const handleSaveClick = async () => {
+        const boundary = `----${Date.now().toString(16)}`;
+
         const formData = new FormData();
         const obj = {
             restaurant_id: foodDetails.restaurant_id,
@@ -98,18 +100,16 @@ const addfood = () => {
             food_description: foodDetails.description,
             price: foodDetails.price,
             is_available: foodDetails.availability,
+            image: selectedImage
         };
 
-        Object.entries(obj).forEach(([key, value]) => {
-            formData.append(key.toString(), value);
-        });
-        formData.append('image', selectedImage.pictureAsFile);
-        formData.append('category_id', Number(foodDetails.category_id));
-        console.log(formData.get("category_id"));
         const res = await fetch(`${process.env.BASE_URL}/api/restaurant/add-foods`, {
             method: 'POST',
-            headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${authToken}` },
-            body: formData,
+            headers: {
+                'Content-Type': `application/json`,
+                Authorization: `Bearer ${authToken}`,
+            },
+            body: JSON.stringify(obj),
         });
         const data = await res.json();
         console.log(data);

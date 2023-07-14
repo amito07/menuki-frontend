@@ -11,15 +11,15 @@ const FoodSection = ({ food_info }) => {
         <Grid container>
           <Grid item xs={12} style={{ marginTop: "2rem" }}>
             <Typography variant="h4" gutterBottom>
-              {food_info?.section_title}
+              {food_info?.category_name}
             </Typography>
           </Grid>
           <Grid item xs={12}>
             <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-              {food_info?.section_details}
+              {food_info?.description}
             </Typography>{" "}
           </Grid>
-          {food_info.food_section.map((el, index) => (
+          {food_info.foodlist.map((el, index) => (
             <Grid
               key={index}
               item
