@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Modal from '@mui/material/Modal';
+import { Button, Table, TableBody, TableCell, TableRow, TextField } from '@mui/material';
 import Box from '@mui/material/Box';
-import { Button, Table, TableBody, TableCell, TableRow, TextField, Switch } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import { useEffect } from 'react';
 
 const style = {
     position: 'absolute',
@@ -28,6 +28,7 @@ const CategoryEditModal = ({ modalOpen, handleModalClose, editableContent, setEd
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}` },
         });
         const data = await res.json();
+        console.log("data",data)
         
         setEditableContent((prev) => ({ ...prev, restaurant_id: data[0].id }));
     };

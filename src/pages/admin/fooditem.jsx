@@ -1,6 +1,9 @@
 /*eslint-disable*/
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import FoodEditModal from '@/components/FoodSection/FoodEditModal';
+import Dashboard from '@/components/Sidebar';
+import AddIcon from '@mui/icons-material/Add';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
     Button,
     Grid,
@@ -10,20 +13,14 @@ import {
     TableCell,
     TableContainer,
     TableHead,
-    TablePagination,
-    TableRow,
+    TableRow
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import Dashboard from '@/components/Sidebar';
-import Fooddata from '@/data/foodlist';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import Image from 'next/image';
-import { useSelector } from 'react-redux';
-import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import FoodEditModal from '@/components/FoodSection/FoodEditModal';
+import Snackbar from '@mui/material/Snackbar';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const columns = [
     { id: 'images', label: 'Images', align: 'center' },
@@ -110,7 +107,7 @@ const fooditem = () => {
         });
         const data = await res.json();
         console.log(data);
-        setTableData(data);
+        setTableData(data ? data : []);
     };
     useEffect(() => {
         if (authToken === null) {
@@ -145,7 +142,7 @@ const fooditem = () => {
                                         <TableRow key={data.id}>
                                             <TableCell align="center">
                                                 <Image
-                                                    src={`${process.env.BASE_URL}/storage/${data.image}`}
+                                                    src={`${process.env.BASE_URL}/${data.image}`}
                                                     alt="image"
                                                     width={100}
                                                     height={100}

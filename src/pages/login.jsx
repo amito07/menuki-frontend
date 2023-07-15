@@ -1,36 +1,34 @@
-import * as React from 'react';
+import { logIn } from '@/redux/features/authSlice';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import MuiAlert from '@mui/material/Alert';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import CircularProgress from '@mui/material/CircularProgress';
+import CssBaseline from '@mui/material/CssBaseline';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import image from '../../public/images/login.png';
-import CircularProgress from '@mui/material/CircularProgress';
-import { logIn, logOut } from '@/redux/features/authSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
-import axios from 'axios';
 import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { useRouter } from 'next/router';
+import { forwardRef, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 const theme = createTheme();
 
-const Alert = React.forwardRef(function Alert(props, ref) {
+const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 export default function login() {
-    const [open, setOpen] = React.useState(false);
-    const [errorMsg, setErrorMsg] = React.useState('');
-    const [isLoading, setIsLoading] = React.useState(false);
+    const [open, setOpen] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const dispatch = useDispatch();
     const route = useRouter();
@@ -71,7 +69,7 @@ export default function login() {
         }
         setOpen(false);
     };
-    React.useEffect(() => {
+    useEffect(() => {
         if (authToken) {
             route.push('//admin/dashboard');
         }

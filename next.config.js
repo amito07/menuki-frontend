@@ -5,12 +5,13 @@ const nextConfig = {
     BASE_URL: 'http://menuki.noeticit.tech',
   },
   images: {
+    domains: ['menuki.noeticit.tech'],
     remotePatterns: [
       {
         protocol: 'http',
         hostname: 'menuki.noeticit.tech',
         port: '',
-        pathname: '/storage/**',
+        pathname: '',
       },
     ],
   },
