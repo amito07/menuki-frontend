@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const theme = createTheme();
 
-export default function login() {
+const Login = () => {
     const [open, setOpen] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -160,3 +160,5 @@ export default function login() {
         </ThemeProvider>
     );
 }
+
+export default Login;
