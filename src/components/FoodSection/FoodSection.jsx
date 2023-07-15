@@ -1,25 +1,33 @@
 /*eslint-disable*/
-import React from "react";
-import Typography from "@mui/material/Typography";
 import { Container, Grid } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import FoodDetailCard from "../FoodDetailCard/FoodDetailCard";
 
 const FoodSection = ({ food_info }) => {
+  console.log("food_info", food_info.foodlist);
   return (
-    <div className="card" id={food_info?.tag}>
+    <div className="card" id={food_info?.id}>
       <Container maxWidth="xl">
         <Grid container>
           <Grid item xs={12} style={{ marginTop: "2rem" }}>
             <Typography variant="h4" gutterBottom>
-              {food_info?.section_title}
+              {food_info?.category_name}
             </Typography>
           </Grid>
-          <Grid item xs={12}>
-            <Typography variant="subtitle1" color="text.secondary" gutterBottom>
-              {food_info?.section_details}
-            </Typography>{" "}
-          </Grid>
-          {food_info.food_section.map((el, index) => (
+          {food_info?.foodlist.length === 0 && (
+            <>
+              <Grid item xs={12}>
+                <Typography
+                  variant="h4"
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  Product Not Available
+                </Typography>
+              </Grid>
+            </>
+          )}
+          {food_info.foodlist.map((el, index) => (
             <Grid
               key={index}
               item

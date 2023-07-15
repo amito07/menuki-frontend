@@ -1,39 +1,68 @@
 /*eslint-disable*/
-import React from "react";
-import PublicLayout from "@/components/PublicLayout";
-import Image from "next/image";
-import { Container, Grid, Tab, Tabs } from "@mui/material";
-import FoodSection from "@/components/FoodSection/FoodSection";
+import { Container, Grid } from "@mui/material";
+import { useEffect, useState } from "react";
 import { Link } from "react-scroll";
-import { data } from "@/data/test";
+
+import FoodSection from "@/components/FoodSection/FoodSection";
+import PublicLayout from "@/components/PublicLayout";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useRouter } from "next/router";
 
 const restaurant = () => {
-  const [value, setValue] = React.useState(0);
+  const [content, setContent] = useState({});
+  const route = useRouter();
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const getRestaurantDetails = async (id) => {
+    const res = await fetch(
+      `${process.env.BASE_URL}/api/restaurant/info/${id}`,
+      {
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+    const data = await res.json();
+    console.log(data);
+    setContent(data[0]);
   };
+
+  console.log("content", content);
+
+  useEffect(() => {
+    if (route.isReady) {
+      const { id } = route.query;
+      getRestaurantDetails(id);
+      console.log(id);
+    }
+  }, [route.isReady]);
   return (
     <PublicLayout type={false}>
       <Container maxWidth="xl">
         <div className="header__wrapper">
           <div className="amit">
-            <img
-              style={{
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "50% 20%",
-                width: "100%",
-                backgroundSize: "cover",
-                height: "60vh",
-              }}
-              src={data.cover_pic}
-              alt="Anna Smith"
-            />
+            {content ? (
+                <img
+                  style={{
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "50% 20%",
+                    width: "100%",
+                    backgroundSize: "cover",
+                    height: "80vh",
+                  }}
+                  src={`${process.env.BASE_URL}/storage/${content?.cover_pic}`}
+                  alt="Anna Smith"
+                />
+            ) : (
+              <CircularProgress />
+            )}
           </div>
           <div className="cols__container">
             <div className="left__col">
               <div className="img__container">
-                <img src={data.profile_pic} alt="Anna Smith" />
+                {content && (
+                  <img
+                    src={`${process.env.BASE_URL}/storage/${content?.profile_pic}`}
+                    alt="Anna Smith"
+                  />
+                )}
                 <span></span>
               </div>
             </div>
@@ -44,24 +73,29 @@ const restaurant = () => {
             <div className="menulist">
               <div className="list-div">
                 <ul className="list">
-                {
-                    data.item_list.map((el,index)=>(
-                      <li>
-                        <Link key={index} to={el.tag} spy={true} smooth={true} offset={-80} duration={500}>{el.name}</Link>
-                      </li>
-                    ))
-                  }
+                  {content?.foodcategory?.map((el, index) => (
+                    <li key={el.id}>
+                      <Link
+                        key={index}
+                        to={el.id}
+                        spy={true}
+                        smooth={true}
+                        offset={-80}
+                        duration={500}
+                      >
+                        {el.category_name}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
           </Grid>
-          {
-            data.food_detail.map((el,index)=>(
-              <Grid item xs={12}>
+          {content?.foodcategory?.map((el, index) => (
+            <Grid item xs={12}>
               <FoodSection food_info={el} />
             </Grid>
-            ))
-          }
+          ))}
         </Grid>
       </Container>
     </PublicLayout>

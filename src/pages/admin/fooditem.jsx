@@ -1,165 +1,216 @@
-/*eslint-disable*/ 
-import React,{useState} from "react";
-import Paper from "@mui/material/Paper";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import AddIcon from "@mui/icons-material/Add";
-import { Button, Grid } from "@mui/material";
-import Dashboard from "@/components/Sidebar";
-import { useRouter } from "next/router";
+/*eslint-disable*/
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import {
+    Button,
+    Grid,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TablePagination,
+    TableRow,
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import Dashboard from '@/components/Sidebar';
+import Fooddata from '@/data/foodlist';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import Image from 'next/image';
+import { useSelector } from 'react-redux';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import FoodEditModal from '@/components/FoodSection/FoodEditModal';
 
 const columns = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
-  {
-    id: "population",
-    label: "Population",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "density",
-    label: "Density",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toFixed(2),
-  },
+    { id: 'images', label: 'Images', align: 'center' },
+    { id: 'name', label: 'Food Name' },
+    { id: 'price', label: 'Price' },
+    { id: 'action', label: 'Action', align: 'center' },
 ];
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767),
-];
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const fooditem = () => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [open, setOpen] = React.useState(false);
+    const [errorMsg, setErrorMsg] = React.useState('');
+    const [tableData, setTableData] = useState([]);
+    const [modalOpen, setModalOpen] = React.useState(false);
+    const [editableContent, setEditableContent] = React.useState({});
+    const authToken =
+        useSelector((state) => state.authReducer.value.accessToken) || typeof window !== 'undefined'
+            ? localStorage.getItem('access_token')
+            : null;
+    const route = useRouter();
 
-  const route = useRouter();
+    const handleAddFood = () => {
+        route.push('/admin/addfood');
+    };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+    const handleModalClose = () => setModalOpen(false);
 
-  const handleAddFood = ()=>{
-    route.push('/admin/addfood')
-  }
+    const handleEditFood = (index) => {
+        const editableFood = tableData[index];
+        setEditableContent(editableFood);
+        setModalOpen(true);
+    };
 
-  return (
-    <Dashboard>
-      <Grid
-        container
-        sx={{ display: "flex", flexDirection: "column" }}
-        spacing={4}
-      >
-        <Grid item alignItems="flex-end">
-          <Button onClick={handleAddFood} variant="outlined" startIcon={<AddIcon />}>
-            Add Food Item
-          </Button>
-        </Grid>
-        <Grid item>
-          <Paper sx={{ width: "100%" }}>
-            <TableContainer sx={{ maxHeight: 440 }}>
-              <Table stickyHeader aria-label="sticky table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="center" colSpan={2}>
-                      Country
-                    </TableCell>
-                    <TableCell align="center" colSpan={3}>
-                      Details
-                    </TableCell>
-                  </TableRow>
-                  <TableRow>
-                    {columns.map((column) => (
-                      <TableCell
-                        key={column.id}
-                        align={column.align}
-                        style={{ top: 57, minWidth: column.minWidth }}
-                      >
-                        {column.label}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      return (
-                        <TableRow
-                          hover
-                          role="checkbox"
-                          tabIndex={-1}
-                          key={row.code}
-                        >
-                          {columns.map((column) => {
-                            const value = row[column.id];
-                            return (
-                              <TableCell key={column.id} align={column.align}>
-                                {column.format && typeof value === "number"
-                                  ? column.format(value)
-                                  : value}
-                              </TableCell>
-                            );
-                          })}
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 100]}
-              component="div"
-              count={rows.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-          </Paper>
-        </Grid>
-      </Grid>
-    </Dashboard>
-  );
+    const handleEditSave = async () => {
+        const res = await fetch(`${process.env.BASE_URL}/api/restaurant/update-food/${editableContent.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}` },
+            body: JSON.stringify({
+                category_id: editableContent.category_id,
+                restaurant_id: editableContent.restaurant_id,
+                user_id: editableContent.user_id,
+                food_name: editableContent.name,
+                food_description: editableContent.description,
+                price: editableContent.price,
+                is_available: editableContent.is_available,
+                ratio: editableContent.ratio,
+            }),
+        });
+        if (res.status === 200) {
+            handleModalClose();
+            getFoodData();
+        }
+    };
+
+    const handleDeleteFood = async (index) => {
+        const selectedItem = tableData[index];
+        const res = await fetch(`${process.env.BASE_URL}/api/restaurant/delete-food/${selectedItem.id}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}` },
+        });
+        if (res.status === 200) {
+            const newTableData = [...tableData];
+            newTableData.splice(index, 1);
+            setTableData(newTableData);
+        }
+        if (res.status !== 200) {
+            setErrorMsg('Something went wrong!');
+            setOpen((state) => !state);
+        }
+    };
+    const getFoodData = async () => {
+        const res = await fetch(`${process.env.BASE_URL}/api/restaurant/my-foods`, {
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}` },
+        });
+        const data = await res.json();
+        console.log(data);
+        setTableData(data);
+    };
+    useEffect(() => {
+        if (authToken === null) {
+            route.push('/login');
+        }
+        getFoodData();
+        // setTableData(Fooddata);
+    }, []);
+    return (
+        <Dashboard>
+            <Grid container sx={{ display: 'flex', flexDirection: 'column' }} spacing={4}>
+                <Grid item alignItems="flex-end">
+                    <Button onClick={handleAddFood} variant="outlined" startIcon={<AddIcon />}>
+                        Add Food Item
+                    </Button>
+                </Grid>
+                <Grid item>
+                    <Paper sx={{ width: '100%' }}>
+                        <TableContainer>
+                            <Table stickyHeader aria-label="sticky table">
+                                <TableHead>
+                                    <TableRow>
+                                        {columns.map((column) => (
+                                            <TableCell key={column.id} align={column.align}>
+                                                {column.label}
+                                            </TableCell>
+                                        ))}
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {tableData.map((data, index) => (
+                                        <TableRow key={data.id}>
+                                            <TableCell align="center">
+                                                <Image
+                                                    src={`${process.env.BASE_URL}/storage/${data.image}`}
+                                                    alt="image"
+                                                    width={100}
+                                                    height={100}
+                                                />
+                                            </TableCell>
+                                            <TableCell>{data.name}</TableCell>
+                                            <TableCell align="left">${data.price}</TableCell>
+                                            <TableCell
+                                                sx={{ display: 'flex', justifyContent: 'center', marginTop: '70px' }}
+                                            >
+                                                <Button
+                                                    variant="outlined"
+                                                    startIcon={<BorderColorIcon />}
+                                                    onClick={(e) => handleEditFood(index)}
+                                                >
+                                                    Edit
+                                                </Button>
+                                                <Button
+                                                    variant="outlined"
+                                                    startIcon={<DeleteIcon />}
+                                                    sx={{ marginLeft: '5px' }}
+                                                    color="error"
+                                                    onClick={(e) => handleDeleteFood(index)}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                    {/* {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                                        return (
+                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                                {columns.map((column) => {
+                                                    const value = row[column.id];
+                                                    return (
+                                                        <TableCell key={column.id} align={column.align}>
+                                                            {column.format && typeof value === 'number'
+                                                                ? column.format(value)
+                                                                : value}
+                                                        </TableCell>
+                                                    );
+                                                })}
+                                            </TableRow>
+                                        );
+                                    })} */}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <FoodEditModal
+                            modalOpen={modalOpen}
+                            handleModalClose={handleModalClose}
+                            editableContent={editableContent}
+                            setEditableContent={setEditableContent}
+                            handleEditSave={handleEditSave}
+                        />
+                    </Paper>
+                </Grid>
+            </Grid>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                    {errorMsg}
+                </Alert>
+            </Snackbar>
+        </Dashboard>
+    );
 };
 
 export default fooditem;
-
