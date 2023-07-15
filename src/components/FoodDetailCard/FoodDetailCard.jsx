@@ -32,7 +32,7 @@ const FoodDetailCard = ({ card_info }) => {
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
-    console.log('card_info', card_info);
+
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardMedia

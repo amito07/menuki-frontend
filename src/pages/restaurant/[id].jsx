@@ -24,13 +24,12 @@ const restaurant = () => {
     setContent(data[0]);
   };
 
-  console.log("content", content);
+  console.log("content", content?.cover_pic);
 
   useEffect(() => {
     if (route.isReady) {
       const { id } = route.query;
       getRestaurantDetails(id);
-      console.log(id);
     }
   }, [route.isReady]);
   return (
@@ -77,7 +76,7 @@ const restaurant = () => {
                     <li key={el.id}>
                       <Link
                         key={index}
-                        to={el.id}
+                        to={`${el.id}`}
                         spy={true}
                         smooth={true}
                         offset={-80}
@@ -92,8 +91,8 @@ const restaurant = () => {
             </div>
           </Grid>
           {content?.foodcategory?.map((el, index) => (
-            <Grid item xs={12}>
-              <FoodSection food_info={el} />
+            <Grid item xs={12} key={index}>
+              <FoodSection food_info={el} key={index} />
             </Grid>
           ))}
         </Grid>

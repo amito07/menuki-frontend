@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import FoodDetailCard from "../FoodDetailCard/FoodDetailCard";
 
 const FoodSection = ({ food_info }) => {
-  console.log("food_info", food_info.foodlist);
+
   return (
     <div className="card" id={food_info?.id}>
       <Container maxWidth="xl">
@@ -36,7 +36,7 @@ const FoodSection = ({ food_info }) => {
               lg={4}
               style={{ marginBottom: "2rem" }}
             >
-              <FoodDetailCard card_info={el} />
+              <FoodDetailCard card_info={el} key={index} />
             </Grid>
           ))}
         </Grid>
