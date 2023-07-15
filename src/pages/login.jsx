@@ -21,14 +21,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const theme = createTheme();
 
-const Alert = forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
-
 export default function login() {
     const [open, setOpen] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+
+    const Alert = forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
 
     const dispatch = useDispatch();
     const route = useRouter();
