@@ -1,23 +1,19 @@
 /*eslint-disable*/
-import React, { useEffect, useState } from 'react';
 import Dashboard from '@/components/Sidebar';
 import {
     Button,
-    Divider,
     FormControl,
-    FormControlLabel,
     Grid,
-    IconButton,
     InputLabel,
     MenuItem,
     Select,
     Switch,
-    TextField,
-    Typography,
+    TextField
 } from '@mui/material';
-import { useSelector } from 'react-redux';
-import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -84,7 +80,6 @@ const addfood = () => {
     };
 
     const onImageChange = (event) => {
-        console.log(event.target.files[0]);
 
         setSelectedImage(event.target.files[0]);
     };
@@ -112,7 +107,6 @@ const addfood = () => {
             body: JSON.stringify(obj),
         });
         const data = await res.json();
-        console.log(data);
     };
 
     const getMyRestaurants = async () => {

@@ -106,7 +106,6 @@ const fooditem = () => {
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}` },
         });
         const data = await res.json();
-        console.log(data);
         setTableData(data ? data : []);
     };
     useEffect(() => {

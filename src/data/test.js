@@ -3,33 +3,13 @@ export const data = {
   cover_pic:"https://static.hungrynaki.com/hungrynaki-v4/restaurants/chillox/meta/chillox_cover_1636088332869.jpeg", 
   item_list: [
     {
-        name:"Burger",
+        name:"Popular",
         tag:"popular"
     },
     {
         name:"Pizza",
         tag:"pizza"
     },
-    {
-        name:"Chicken_item",
-        tag:"Chicken_item"
-    },
-    {
-        name:"Pasta",
-        tag:"Pasta"
-    },
-    {
-        name:"Shakes",
-        tag:"Shakes"
-    },
-    {
-        name:"Rice",
-        tag:"Rice"
-    },
-    {
-        name:"Snacks",
-        tag:"Snacks"
-    }
   ],
   food_detail: [
     {

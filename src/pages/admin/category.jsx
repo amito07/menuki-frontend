@@ -1,6 +1,10 @@
 /*eslint-disable*/
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import CategoryEditModal from '@/components/Category/CategoryEditModal';
+import CategoryModal from '@/components/Category/CategoryModal';
+import Dashboard from '@/components/Sidebar';
+import AddIcon from '@mui/icons-material/Add';
+import BorderColorIcon from '@mui/icons-material/BorderColor';
+import DeleteIcon from '@mui/icons-material/Delete';
 import {
     Button,
     Grid,
@@ -10,16 +14,11 @@ import {
     TableCell,
     TableContainer,
     TableHead,
-    TablePagination,
-    TableRow,
+    TableRow
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Dashboard from '@/components/Sidebar';
-import CategoryModal from '@/components/Category/CategoryModal';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import CategoryEditModal from '@/components/Category/CategoryEditModal';
 
 const outlet = () => {
     const [tableData, setTableData] = useState([]);
@@ -107,7 +106,6 @@ const outlet = () => {
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}` },
         });
         const data = await res.json();
-        console.log(data);
         setTableData(data);
     };
 

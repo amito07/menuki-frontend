@@ -28,7 +28,6 @@ const CategoryEditModal = ({ modalOpen, handleModalClose, editableContent, setEd
             headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${authToken}` },
         });
         const data = await res.json();
-        console.log("data",data)
         
         setEditableContent((prev) => ({ ...prev, restaurant_id: data[0].id }));
     };
