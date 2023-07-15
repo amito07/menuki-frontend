@@ -21,7 +21,7 @@ const restaurant = () => {
     }
   }, [isDeskTop]);
 
-  console.log("isDeskTop",isDeskTop)
+
   return (
     <PublicLayout type={false}>
       <Container maxWidth="xl">
