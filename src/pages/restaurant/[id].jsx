@@ -1,9 +1,8 @@
+import FoodSection from "@/components/FoodSection/FoodSection";
+import PublicLayout from "@/components/PublicLayout";
 import { data } from "@/data/test";
 import { Container, Grid } from "@mui/material";
 import { Link } from "react-scroll";
-
-import FoodSection from "@/components/FoodSection/FoodSection";
-import PublicLayout from "@/components/PublicLayout";
 
 const restaurant = () => {
   return (
@@ -38,9 +37,10 @@ const restaurant = () => {
               <div className="list-div">
                 <ul className="list">
                   {data.item_list.map((el, index) => (
-                    <li>
+                    <li key={index}>
+                      {" "}
+                      {/* Added key prop */}
                       <Link
-                        key={index}
                         to={el.tag}
                         spy={true}
                         smooth={true}
@@ -56,7 +56,9 @@ const restaurant = () => {
             </div>
           </Grid>
           {data.food_detail.map((el, index) => (
-            <Grid item xs={12}>
+            <Grid item xs={12} key={index}>
+              {" "}
+              {/* Added key prop */}
               <FoodSection food_info={el} />
             </Grid>
           ))}
