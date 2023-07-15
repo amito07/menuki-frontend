@@ -2,9 +2,26 @@ import FoodSection from "@/components/FoodSection/FoodSection";
 import PublicLayout from "@/components/PublicLayout";
 import { data } from "@/data/test";
 import { Container, Grid } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import { Link } from "react-scroll";
 
 const restaurant = () => {
+  const [dynamicHeight, setdynamicHeight] = useState("40vh");
+
+  const isDeskTop = useMediaQuery({
+    query: "(min-width: 1024px)",
+  });
+
+  useEffect(() => {
+    if (isDeskTop) {
+      setdynamicHeight("80vh");
+    } else {
+      setdynamicHeight("40vh");
+    }
+  }, [isDeskTop]);
+
+  console.log("isDeskTop",isDeskTop)
   return (
     <PublicLayout type={false}>
       <Container maxWidth="xl">
@@ -16,7 +33,7 @@ const restaurant = () => {
                 backgroundPosition: "50% 20%",
                 width: "100%",
                 backgroundSize: "cover",
-                height: "80vh",
+                height: dynamicHeight,
               }}
               src={data.cover_pic}
               alt="Anna Smith"
