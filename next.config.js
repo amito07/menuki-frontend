@@ -9,9 +9,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: 'menuki.noeticit.tech',
-        port: '',
-        pathname: '',
+        hostname: 'menuki.noeticit.tech'
       },
     ],
   },
