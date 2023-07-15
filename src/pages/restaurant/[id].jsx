@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-scroll";
 
-const restaurant = () => {
+const Restaurant = () => {
   const [dynamicHeight, setdynamicHeight] = useState("40vh");
 
   const isDeskTop = useMediaQuery({
@@ -85,4 +85,4 @@ const restaurant = () => {
   );
 };
 
-export default restaurant;
+export default Restaurant;
