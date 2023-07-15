@@ -1,19 +1,19 @@
 /*eslint-disable*/
-import React, { useState } from 'react';
-import { styled } from '@mui/material/styles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
     Card,
-    CardMedia,
-    CardContent,
     CardActions,
-    Collapse,
-    IconButton,
-    Typography,
+    CardContent,
+    CardMedia,
     Chip,
-    Stack,
+    Collapse,
     Divider,
+    IconButton,
+    Stack,
+    Typography,
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { styled } from '@mui/material/styles';
+import { useState } from 'react';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -38,19 +38,19 @@ const FoodDetailCard = ({ card_info }) => {
             <CardMedia
                 component="img"
                 height="194"
-                image={`${process.env.BASE_URL}/storage/${card_info.image}`}
+                image={`${process.env.BASE_URL}/${card_info.image}`}
                 alt="Paella dish"
             />
             <CardContent>
                 <Typography variant="h4" color="text.secondary">
-                    {card_info.food_title}
+                    {card_info.name}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
                 <Stack direction="row" spacing={1}>
                     <Chip
-                        label={card_info.is_available === '1' ? 'Available' : 'Unavailable'}
-                        color={card_info.available === '1' ? 'success' : 'error'}
+                        label={card_info.is_available == '1' ? 'Available' : 'Unavailable'}
+                        color={card_info.is_available == '1' ? 'success' : 'error'}
                     />
                     <Chip label={card_info?.price ? `৳ ${card_info?.price}` : '৳ 00'} color="success" />
                 </Stack>
