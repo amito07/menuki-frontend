@@ -24,9 +24,15 @@ export default function Home() {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      setCopyData(Fooddata);
-    }, 3000);
+    // setTimeout(() => {
+    //   setCopyData(Fooddata);
+    // }, 3000);
+    fetch(`${process.env.BASE_URL}/api/restaurants`)
+    .then( res => res.json())
+    .then(data => {
+      console.log(data);
+      setCopyData(data);
+    });
   }, []);
 
   const handleCardClick = (id) => {

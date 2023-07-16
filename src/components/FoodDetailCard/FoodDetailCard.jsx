@@ -38,7 +38,7 @@ const FoodDetailCard = ({ card_info }) => {
       <CardMedia
         component="img"
         height="194"
-        image={card_info.img_url}
+        image={process.env.BASE_URL+card_info.img_url}
         alt="Paella dish"
       />
       <CardContent>

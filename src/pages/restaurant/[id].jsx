@@ -5,26 +5,48 @@ import { Container, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-scroll";
+import { useRouter } from 'next/router'
+
 
 const Restaurant = () => {
   const [dynamicHeight, setdynamicHeight] = useState("40vh");
+  const [data, setData] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   const isDeskTop = useMediaQuery({
     query: "(min-width: 1024px)",
   });
-
+  
+  const router = useRouter()
+  
+  const restaurantID = router.query.id;
   useEffect(() => {
     if (isDeskTop) {
       setdynamicHeight("80vh");
     } else {
       setdynamicHeight("40vh");
     }
-  }, [isDeskTop]);
+    console.log("The query is " + restaurantID);  
+    if(restaurantID != undefined){
+        fetch(`${process.env.BASE_URL}/api/restaurant/${restaurantID}`)
+        .then( res => res.json())
+        .then(d => {
+          console.log(d);
+          // console.log()
+          setData(d);
+          setLoaded(true);
+        })
+        .catch(e => console.log(e));
+    }
+    else{
+      setLoaded(false);
+    }
+  }, [isDeskTop, restaurantID]);
 
 
   return (
     <PublicLayout type={false}>
-      <Container maxWidth="xl">
+      {loaded && <Container maxWidth="xl">
         <div className="header__wrapper">
           <div className="amit">
             <img
@@ -35,14 +57,14 @@ const Restaurant = () => {
                 backgroundSize: "cover",
                 height: dynamicHeight,
               }}
-              src={data.cover_pic}
+              src={process.env.BASE_URL+data.cover_pic}
               alt="Anna Smith"
             />
           </div>
           <div className="cols__container">
             <div className="left__col">
               <div className="img__container">
-                <img src={data.profile_pic} alt="Anna Smith" />
+                <img src={process.env.BASE_URL+data.profile_pic} alt="Anna Smith" />
                 <span></span>
               </div>
             </div>
@@ -53,7 +75,7 @@ const Restaurant = () => {
             <div className="menulist">
               <div className="list-div">
                 <ul className="list">
-                  {data.item_list.map((el, index) => (
+                  {data.item_list?.map((el, index) => (
                     <li key={index}>
                       {" "}
                       {/* Added key prop */}
@@ -80,7 +102,7 @@ const Restaurant = () => {
             </Grid>
           ))}
         </Grid>
-      </Container>
+      </Container>}
     </PublicLayout>
   );
 };

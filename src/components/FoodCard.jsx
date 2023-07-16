@@ -16,13 +16,13 @@ export default function FoodCard({ item, handleCardClick }) {
                 <CardMedia
                   component="img"
                   height="194"
-                  image={el.imgdata}
+                  image={process.env.BASE_URL + el.profile_pic}
                   alt="Paella dish"
                 />
                 <CardContent>
                   <Grid container>
                     <Grid item>
-                      <Typography variant="h5">{el.rname}</Typography>
+                      <Typography variant="h5">{el.name}</Typography>
                     </Grid>
                   </Grid>
                 </CardContent>
